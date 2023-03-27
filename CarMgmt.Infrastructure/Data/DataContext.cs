@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CarMgmt.Infrastructure.Data
+namespace CarMgmt.Infrastructure
 {
 	public class DataContext : DbContext
 	{
