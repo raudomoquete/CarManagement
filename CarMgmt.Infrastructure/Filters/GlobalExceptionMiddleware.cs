@@ -1,16 +1,9 @@
-﻿using CarMgmt.Core.Exceptions;
-using CarMgmt.Core.Models;
-using Newtonsoft.Json;
-using Serilog.Context;
-using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CarMgmt.Core;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using Serilog;
+using Serilog.Context;
+using System.Net;
 
 namespace CarMgmt.Infrastructure
 {
