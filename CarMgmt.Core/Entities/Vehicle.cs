@@ -13,6 +13,7 @@ namespace CarMgmt.Core.Entities
 
 		public DateTime VehicleYear { get; set; }
 
+		public int BrandId { get; set; }
 		public virtual Brand? Brand { get; set; }
 
 		/// <summary>
