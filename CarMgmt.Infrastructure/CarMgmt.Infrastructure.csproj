@@ -22,4 +22,8 @@
     <ProjectReference Include="..\CarMgmt.Core\CarMgmt.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+
 </Project>

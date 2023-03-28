@@ -4,6 +4,7 @@ namespace CarMgmt.Core
 {
 	public class Vehicle : BaseEntity
 	{
+
 		public decimal Price { get; set; }
 
 		public DateTime VehicleYear { get; set; }
@@ -11,22 +12,9 @@ namespace CarMgmt.Core
 		public int BrandId { get; set; }
 		public virtual Brand? Brand { get; set; }
 
-		/// <summary>
-		/// Enum del tipo de Estado
-		/// </summary>
-		[DefaultValue(0)]
-		public CarStatus CarStatusEnum { get; set; }
+		public int StatusId { get; set; }
 
-		[DefaultValue("Na")]
-		public string SetVehicleStatus
-		{
-			set
-			{
-				CarStatus tmpCarStatusEnum;
-				Enum.TryParse(value, out tmpCarStatusEnum);
-				CarStatusEnum = tmpCarStatusEnum;
-			}
-		}
+		public virtual Status? Status { get; set; }
 
 	}
 }

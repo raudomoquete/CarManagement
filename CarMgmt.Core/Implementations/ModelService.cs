@@ -11,6 +11,14 @@
 
         public async Task AddModel(Model model)
 		{
+			var brand = await _unitOfWork.BrandRepository.GetById(model.Brand.Id);
+			if (brand == null)
+			{
+				throw new NotFoundException("Esta marca no existe");
+			}
+			var vehicleBrand = await _unitOfWork.BrandRepository.GetById(model.Brand.Id);
+			_unitOfWork.BrandRepository.Update(vehicleBrand);
+
 			await _unitOfWork.ModelRepository.Add(model);
 			await _unitOfWork.SaveChangesAsync();
 		}

@@ -4,6 +4,7 @@ using CarMgmt.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarMgmt.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230328161959_Complete")]
+    partial class Complete
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,7 +82,13 @@ namespace CarMgmt.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("VehicleId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("VehicleId")
+                        .IsUnique();
 
                     b.ToTable("Stats");
                 });
@@ -95,6 +104,9 @@ namespace CarMgmt.Infrastructure.Migrations
                     b.Property<int>("BrandId")
                         .HasColumnType("int");
 
+                    b.Property<int>("CarStatusEnum")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -102,18 +114,12 @@ namespace CarMgmt.Infrastructure.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("StatusId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("VehicleYear")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BrandId")
-                        .IsUnique();
-
-                    b.HasIndex("StatusId")
                         .IsUnique();
 
                     b.ToTable("Vehicles");
@@ -128,6 +134,17 @@ namespace CarMgmt.Infrastructure.Migrations
                     b.Navigation("Brand");
                 });
 
+            modelBuilder.Entity("CarMgmt.Core.Status", b =>
+                {
+                    b.HasOne("CarMgmt.Core.Vehicle", "Vehicle")
+                        .WithOne("Status")
+                        .HasForeignKey("CarMgmt.Core.Status", "VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Vehicle");
+                });
+
             modelBuilder.Entity("CarMgmt.Core.Vehicle", b =>
                 {
                     b.HasOne("CarMgmt.Core.Brand", "Brand")
@@ -136,15 +153,7 @@ namespace CarMgmt.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CarMgmt.Core.Status", "Status")
-                        .WithOne("Vehicle")
-                        .HasForeignKey("CarMgmt.Core.Vehicle", "StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Brand");
-
-                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("CarMgmt.Core.Brand", b =>
@@ -154,9 +163,9 @@ namespace CarMgmt.Infrastructure.Migrations
                     b.Navigation("Vehicle");
                 });
 
-            modelBuilder.Entity("CarMgmt.Core.Status", b =>
+            modelBuilder.Entity("CarMgmt.Core.Vehicle", b =>
                 {
-                    b.Navigation("Vehicle");
+                    b.Navigation("Status");
                 });
 #pragma warning restore 612, 618
         }
