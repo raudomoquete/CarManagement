@@ -1,3 +1,4 @@
+using CarMgmt.Core;
 using CarMgmt.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,6 +11,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=DbConnection"));
+
+//Dependencies
+builder.Services.AddTransient<IVehicleRepository, VehicleRepository>();
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+builder.Services.AddScoped<IVehicle, VehicleService>();
+builder.Services.AddScoped<IBrand, BrandService>();
+builder.Services.AddScoped<IModel, ModelService>();
+builder.Services.AddScoped<IStatus, StatusService>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
+
 
 var app = builder.Build();
 
