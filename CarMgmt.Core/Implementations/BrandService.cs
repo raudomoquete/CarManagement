@@ -1,4 +1,6 @@
-﻿namespace CarMgmt.Core
+﻿using System.Reflection;
+
+namespace CarMgmt.Core
 {
 	public class BrandService : IBrand
 	{
@@ -33,6 +35,7 @@
 
 		public async Task<bool> UpdateBrand(Brand brand)
 		{
+
 			_unitOfWork.BrandRepository.Update(brand);
 			await _unitOfWork.SaveChangesAsync();
 			return true;
