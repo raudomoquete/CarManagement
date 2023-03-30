@@ -4,12 +4,12 @@
 	{
 		private readonly IUnitOfWork _unitOfWork;
 
-        public ModelService(IUnitOfWork unitOfWork)
+		public ModelService(IUnitOfWork unitOfWork)
         {
 			_unitOfWork = unitOfWork;
 		}
 
-        public async Task AddModel(Model model)
+		public async Task AddModel(Model model)
 		{
 			var brand = await _unitOfWork.BrandRepository.GetById(model.BrandId);
 			if (brand == null)

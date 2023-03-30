@@ -10,7 +10,7 @@ namespace CarMgmt.Core
 	{
 		public int Id { get; set; }
 
-		public int BrandId { get; set; }
+		//public int BrandId { get; set; }
 
 		public string Name { get; set; } = null!;
 

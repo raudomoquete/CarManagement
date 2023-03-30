@@ -41,6 +41,16 @@ namespace CarMgmt.Api.Controllers
 			return Ok(response);
 		}
 
+		[HttpGet("GetBrandWithModels")]
+		public async Task<IActionResult> GetBrandWithModels(int id)
+		{
+			var brand = await _brand.GetBrandWithModelsByBrandId(id);
+			var brandDto = _mapper.Map<BrandDto>(brand);
+			var response = new ApiResponse<BrandDto>(brandDto);
+
+			return Ok(response);
+		}
+
 		[HttpPost("addBrand")]
 		public async Task<IActionResult> PostBrand(BrandDto brandDto)
 		{

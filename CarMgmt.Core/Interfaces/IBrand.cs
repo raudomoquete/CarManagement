@@ -6,6 +6,8 @@
 
 		Task<Brand> GetBrandById(int id);
 
+		Task<Brand> GetBrandWithModelsByBrandId(int id);
+
 		Task AddBrand(Brand brand);
 
 		Task<bool> UpdateBrand(Brand brand);

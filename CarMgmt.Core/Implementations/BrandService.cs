@@ -6,10 +6,12 @@ namespace CarMgmt.Core
 	{
 		private readonly IUnitOfWork _unitOfWork;
 
-        public BrandService(IUnitOfWork unitOfWork)
+
+		public BrandService(IUnitOfWork unitOfWork)
         {
 			_unitOfWork = unitOfWork;
 		}
+
 
         public async Task AddBrand(Brand brand)
 		{
@@ -17,21 +19,55 @@ namespace CarMgmt.Core
 			await _unitOfWork.SaveChangesAsync();
 		}
 
+
 		public async Task<bool> DeleteBrand(int id)
 		{
 			await _unitOfWork.BrandRepository.Delete(id);
 			return true;
 		}
 
+
 		public Task<Brand> GetBrandById(int id)
 		{
 			return _unitOfWork.BrandRepository.GetById(id);
 		}
 
+
+		public async Task<Brand> GetBrandWithModelsByBrandId(int id)
+		{
+			try
+			{
+				var tmpResult = _unitOfWork.ModelRepository.GetAll();
+
+				for (int i = 0; i < tmpResult.ToList().Count; i++) { }
+				{
+					var tmpBrand = new BrandDto()
+					{
+						Models = new List<ModelDto>()
+						{
+							new ModelDto
+							{
+								Name = tmpResult.First().Name,
+							}
+						}
+					};
+
+				}
+			}
+			catch
+			{
+				throw new NotFoundException("No se encuentran los modelos de esta marca o la marca no existe");
+			}
+
+			return await _unitOfWork.BrandRepository.GetById(id);
+		}
+
+
 		public IEnumerable<Brand> GetBrands()
 		{
 			return _unitOfWork.BrandRepository.GetAll();
 		}
+
 
 		public async Task<bool> UpdateBrand(Brand brand)
 		{
