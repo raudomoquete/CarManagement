@@ -14,7 +14,7 @@
 			var brand = await _unitOfWork.BrandRepository.GetById(model.BrandId);
 			if (brand == null)
 			{
-				throw new NotFoundException("Esta marca no existe");
+				throw new NotFoundException($"La marca con el Id: {model.BrandId} no puede ser encontrada.");
 			}
 			var vehicleBrand = await _unitOfWork.BrandRepository.GetById(model.BrandId);
 			_unitOfWork.BrandRepository.Update(vehicleBrand);
@@ -34,9 +34,32 @@
 			return _unitOfWork.ModelRepository.GetById(id);
 		}
 
-		public IEnumerable<Model> GetModels()
+		public IEnumerable<ModelDto> GetModels()
 		{
-			return _unitOfWork.ModelRepository.GetAll();
+			try
+			{
+				var tmpModel = new List<ModelDto>();
+				var modelContext = _unitOfWork.ModelRepository.GetAll();
+
+				for (int i = 0; i < modelContext.ToList().Count; i++)
+				{
+					tmpModel = new List<ModelDto>()
+					{
+						new ModelDto()
+						{
+							Id = modelContext.First().Id,
+							Name = modelContext.First().Name,
+							BrandId = modelContext.First().BrandId,
+						}
+					};
+				}
+
+				return tmpModel;
+			}
+			catch
+			{
+				throw new NotFoundException("No se encuentra la marca a la que pertenecen los modelos o la marca no existe");
+			}
 		}
 
 		public async Task<bool> UpdateModel(Model model)

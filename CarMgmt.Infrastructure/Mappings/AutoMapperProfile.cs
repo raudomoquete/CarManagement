@@ -11,7 +11,7 @@ namespace CarMgmt.Infrastructure
 
 			CreateMap<Model, ModelDto>().ReverseMap();
 
-			CreateMap<Brand, BrandDto>().ReverseMap();
+			CreateMap<Brand, BrandWithModelsDto>().ReverseMap();
 
 			CreateMap<Brand, BrandDto>().ReverseMap();
 

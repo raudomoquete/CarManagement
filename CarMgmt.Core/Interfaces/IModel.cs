@@ -2,7 +2,7 @@
 {
 	public interface IModel
 	{
-		IEnumerable<Model> GetModels();
+		IEnumerable<ModelDto> GetModels();
 
 		Task<Model> GetModelById(int id);
 

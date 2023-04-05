@@ -26,9 +26,10 @@ namespace CarMgmt.Api.Controllers
 		}
 
 		[HttpGet("brands")]
-		public async Task<ActionResult<IEnumerable<Brand>>> GetBrands()
+		public ActionResult<IEnumerable<BrandDto>> GetBrands()
 		{
-			return await _context.Brands.ToListAsync();
+			return _brand.GetBrands().ToList();
+
 		}
 
 		[HttpGet("{id}")]
@@ -38,6 +39,11 @@ namespace CarMgmt.Api.Controllers
 			var brandDto = _mapper.Map<BrandDto>(brand);
 			var response = new ApiResponse<BrandDto>(brandDto);
 
+			if (brand == null)
+			{
+				throw new NotFoundException($"La marca con el Id: {id} no puede ser encontrada.");
+			}
+
 			return Ok(response);
 		}
 
@@ -45,26 +51,26 @@ namespace CarMgmt.Api.Controllers
 		public async Task<IActionResult> GetBrandWithModels(int id)
 		{
 			var brand = await _brand.GetBrandWithModelsByBrandId(id);
-			var brandDto = _mapper.Map<BrandDto>(brand);
-			var response = new ApiResponse<BrandDto>(brandDto);
+			var brandDto = _mapper.Map<BrandWithModelsDto>(brand);
+			var response = new ApiResponse<BrandWithModelsDto>(brandDto);
 
 			return Ok(response);
 		}
 
 		[HttpPost("addBrand")]
-		public async Task<IActionResult> PostBrand(BrandDto brandDto)
+		public async Task<IActionResult> PostBrand(BrandWithModelsDto brandDto)
 		{
 			var brand = _mapper.Map<Brand>(brandDto);
 
 			await _brand.AddBrand(brand);
 
-			brandDto = _mapper.Map<BrandDto>(brand);
-			var response = new ApiResponse<BrandDto>(brandDto);
+			brandDto = _mapper.Map<BrandWithModelsDto>(brand);
+			var response = new ApiResponse<BrandWithModelsDto>(brandDto);
 			return Ok(response);
 		}
 
 		[HttpPut("update")]
-		public async Task<IActionResult> PutBrand(int id, BrandDto brandDto)
+		public async Task<IActionResult> PutBrand(int id, BrandWithModelsDto brandDto)
 		{
 			var brand = _mapper.Map<Brand>(brandDto);
 			brand.Id = id;

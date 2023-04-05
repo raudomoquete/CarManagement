@@ -27,9 +27,9 @@ namespace CarMgmt.Api.Controllers
 		}
 
 		[HttpGet("models")]
-		public async Task<ActionResult<IEnumerable<Model>>> GetModels()
+		public ActionResult<IEnumerable<ModelDto>> GetModels()
 		{
-			return await _context.Models.ToListAsync();
+			return _model.GetModels().ToList();	
 		}
 
 		[HttpGet("{id}")]

@@ -2,7 +2,7 @@
 {
 	public interface IBrand
 	{
-		IEnumerable<Brand> GetBrands();
+		IEnumerable<BrandDto> GetBrands();
 
 		Task<Brand> GetBrandById(int id);
 

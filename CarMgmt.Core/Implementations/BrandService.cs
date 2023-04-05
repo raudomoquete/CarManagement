@@ -39,9 +39,9 @@ namespace CarMgmt.Core
 			{
 				var tmpResult = _unitOfWork.ModelRepository.GetAll();
 
-				for (int i = 0; i < tmpResult.ToList().Count; i++) { }
+				for (int i = 0; i < tmpResult.ToList().Count; i++)
 				{
-					var tmpBrand = new BrandDto()
+					var tmpBrand = new BrandWithModelsDto()
 					{
 						Models = new List<ModelDto>()
 						{
@@ -63,9 +63,26 @@ namespace CarMgmt.Core
 		}
 
 
-		public IEnumerable<Brand> GetBrands()
+		public IEnumerable<BrandDto> GetBrands()
 		{
-			return _unitOfWork.BrandRepository.GetAll();
+			var tmpResult = new List<BrandDto>();
+			var brandContext = _unitOfWork.BrandRepository.GetAll();
+
+			for (int i = 0; i < brandContext.ToList().Count; i++)
+			{
+
+				tmpResult = new List<BrandDto>()
+				{
+					new BrandDto
+					{
+						Id = brandContext.First().Id,
+						Name = brandContext.First().Name,
+					}
+				};
+			
+			}
+
+			return tmpResult;
 		}
 
 
